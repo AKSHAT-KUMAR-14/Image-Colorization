@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Colorization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ecf0f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        #uploadInput {
+            display: none;
+        }
+
+        label.upload-label {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-right: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label.upload-label:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-left: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #coloredImageContainer {
+            margin-top: 30px;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Image Colorization</h2>
+        <label for="uploadInput" class="upload-label">Upload Image</label>
+        <input type="file" id="uploadInput" accept="image/*">
+        <button onclick="uploadImage()">Colorize</button>
+        <div id="coloredImageContainer"></div>
+        <img id="coloredImageEccv16" />
+        <img id="coloredImageSiggraph17" />
+
+    </div>
+
+    <script>
+        function uploadImage() {
+            var input = document.getElementById('uploadInput');
+            var file = input.files[0];
+            if (!file) {
+                alert('Please select a file.');
+                return;
+            }
+            var formData = new FormData();
+            formData.append('image', file);
+        
+            fetch('/colorize', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Update image src attributes
+                document.getElementById('coloredImageEccv16').src = response.colored_image_eccv16;
+                document.getElementById('coloredImageSiggraph17').src = response.colored_image_siggraph17;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+        
+    </script>
+</body>
+</html>
