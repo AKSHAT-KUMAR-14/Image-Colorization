@@ -99,7 +99,6 @@
         <button onclick="uploadImage()">Colorize</button>
         <div id="coloredImageContainer"></div>
         <img id="coloredImageEccv16" />
-        <img id="coloredImageSiggraph17" />
 
     </div>
 
@@ -119,12 +118,11 @@
                 body: formData
             })
             .then(response => {
-                if (!response.ok) {
+                if (!response.ok) { 
                     throw new Error('Network response was not ok');
                 }
                 // Update image src attributes
-                document.getElementById('coloredImageEccv16').src = response.colored_image_eccv16;
-                document.getElementById('coloredImageSiggraph17').src = response.colored_image_siggraph17;
+                document.getElementById('coloredImageEccv16').src ="static/Colorized_img.jpg";
             })
             .catch(error => {
                 console.error('Error:', error);
