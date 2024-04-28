@@ -7,4 +7,3 @@ Pillow
 flask
 IPython
 Werkzeug
-pysqlite3
