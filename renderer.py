@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 from colorizers import *
 import matplotlib.pyplot as plt
